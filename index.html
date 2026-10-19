@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Momentet që ndryshuan historinë</title>
+<meta name="description" content="35 ngjarje nga shekujt 11–13 në Arbëri, Bizant, Perëndim dhe në mbarë botën, në një vijë kohore interaktive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12100d;--bg2:#1b1812;--card:#221e16;--line:#8a6d2f;--gold:#d9b25f;--text:#eee6d3;--mut:#a89d83;
+  --c-arb:#e0524a;--c-biz:#a779e0;--c-per:#4f9be0;--c-bot:#4fc08d;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 600px at 50% -10%,#2a2315,var(--bg));color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;min-height:100vh}
+header{text-align:center;padding:72px 20px 28px}
+header small{letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-size:12px}
+h1{font:700 clamp(36px,7vw,72px)/1.05 "Cormorant Garamond",serif;margin:14px 0 14px}
+header p{max-width:620px;margin:0 auto;color:var(--mut)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:28px 0 8px;padding:0 16px}
+.filters button{background:none;border:1px solid #4a3f28;color:var(--text);padding:7px 16px;border-radius:99px;cursor:pointer;font:inherit;font-size:14px;display:flex;gap:8px;align-items:center}
+.filters button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.filters button.on{background:var(--gold);color:#1a1409;border-color:var(--gold)}
+.filters button.on i{box-shadow:0 0 0 2px #1a1409 inset}
+.era{text-align:center;font:700 28px "Cormorant Garamond",serif;color:var(--gold);margin:46px 0 6px}
+/* timeline */
+#tl{position:relative;max-width:1000px;margin:0 auto;padding:20px 16px 120px}
+#tl::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%);background:linear-gradient(var(--line),var(--gold),var(--line));border-radius:3px}
+.item{position:relative;width:50%;padding:10px 46px;margin-bottom:6px}
+.item.l{left:0;text-align:right}.item.r{left:50%}
+.item .dot{position:absolute;top:26px;width:20px;height:20px;border-radius:50%;background:var(--c);border:4px solid var(--bg);box-shadow:0 0 0 2px var(--c);transition:.25s;z-index:2}
+.item.l .dot{right:-10px}.item.r .dot{left:-10px}
+.item:hover .dot,.item.act .dot{transform:scale(1.5);box-shadow:0 0 0 3px var(--c),0 0 18px var(--c)}
+.item button{all:unset;cursor:pointer;display:block;width:100%;padding:14px 18px;border-radius:12px;background:var(--card);border:1px solid #3a3220;transition:.25s}
+.item button:hover,.item button:focus-visible{border-color:var(--c);transform:translateY(-2px);background:#2a2519}
+.item .yr{font:700 34px/1 "Cormorant Garamond",serif;color:var(--c)}
+.item .tt{font-weight:500;margin-top:4px}
+.item .pl{font-size:13px;color:var(--mut);margin-top:2px}
+.item .hint{font-size:12px;color:var(--gold);margin-top:6px;opacity:.8}
+.item.hide{display:none}
+/* modal */
+#ov{position:fixed;inset:0;background:rgba(5,4,2,.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+#ov.open{display:flex}
+#box{background:var(--card);border:1px solid var(--c,#555);border-radius:18px;max-width:880px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1.05fr 1fr;animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:scale(.94) translateY(14px)}}
+#ph{position:relative;min-height:340px;background:#0e0c08;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#ph img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+#ph .fb{font:700 120px "Cormorant Garamond",serif;color:var(--c);opacity:.35;text-align:center;padding:10px}
+#ph .cr{position:absolute;bottom:0;left:0;right:0;font-size:11px;background:rgba(0,0,0,.6);color:#ccc;padding:4px 10px}
+#tx{padding:32px 30px;display:flex;flex-direction:column}
+.tag{align-self:flex-start;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:3px 12px;border-radius:99px;background:var(--c);color:#111;font-weight:600}
+#mdate{font:700 44px/1.1 "Cormorant Garamond",serif;color:var(--c);margin:14px 0 4px}
+#mt{font:700 24px/1.25 "Cormorant Garamond",serif;margin-bottom:6px}
+#mp{color:var(--mut);font-size:14px;margin-bottom:14px}
+#mx{font-size:16px}
+.nav{margin-top:auto;padding-top:22px;display:flex;gap:10px;justify-content:space-between}
+.nav button{background:none;border:1px solid #4a3f28;color:var(--text);padding:8px 16px;border-radius:99px;cursor:pointer;font:inherit;font-size:14px}
+.nav button:hover{background:var(--gold);color:#111}
+#x{position:fixed;top:16px;right:20px;z-index:60;width:42px;height:42px;border-radius:50%;border:1px solid #6a5a35;background:#1b1812;color:var(--text);font-size:22px;cursor:pointer;display:none}
+#ov.open~#x{display:block}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:0 16px 50px}
+@media(max-width:760px){
+  #tl::before{left:22px}
+  .item,.item.l,.item.r{width:100%;left:0;text-align:left;padding:8px 0 8px 54px}
+  .item.l .dot,.item.r .dot{left:12px;right:auto}
+  #box{grid-template-columns:1fr}
+  #ph{min-height:230px;height:230px}
+  #tx{padding:22px 20px}
+  #mdate{font-size:36px}
+}
+</style>
+</head>
+<body>
+<header>
+  <small>Shekujt 11 – 13 · Arbëri · Bizant · Perëndim · Botë</small>
+  <h1>Momentet që ndryshuan historinë</h1>
+  <p>35 ngjarje që formësuan Arbërinë dhe botën mes viteve 1018 dhe 1279. Kliko mbi një pikë të vijës kohore për të parë fotografinë dhe shpjegimin.</p>
+  <div class="filters" id="fl"></div>
+</header>
+<main id="tl"></main>
+<div id="ov"><div id="box">
+  <div id="ph"></div>
+  <div id="tx">
+    <span class="tag" id="mg"></span>
+    <div id="mdate"></div>
+    <div id="mt"></div>
+    <div id="mp"></div>
+    <p id="mx"></p>
+    <div class="nav"><button id="pv">← Më parë</button><button id="nx">Më pas →</button></div>
+  </div>
+</div></div>
+<button id="x" aria-label="Mbyll">×</button>
+<footer>Fotografitë vijnë nga Wikipedia / Wikimedia Commons. Përdor ← → për të lëvizur mes ngjarjeve dhe Esc për të mbyllur.</footer>
+<script src="data.js"></script>
+<script>
+const COL={"Arbëri":"--c-arb","Bizant":"--c-biz","Perëndim":"--c-per","Botë":"--c-bot"};
+const col=g=>getComputedStyle(document.documentElement).getPropertyValue(COL[g]).trim();
+const $=id=>document.getElementById(id);
+let filter="Të gjitha",cur=-1;
+const photoCache={};
+
+function visible(){return NGJARJET.map((e,i)=>i).filter(i=>filter==="Të gjitha"||NGJARJET[i].grupi===filter)}
+
+function renderFilters(){
+  const fl=$("fl");fl.innerHTML="";
+  ["Të gjitha",...Object.keys(COL)].forEach(g=>{
+    const b=document.createElement("button");
+    if(g!=="Të gjitha")b.innerHTML=`<i style="--c:${col(g)}"></i>`;
+    b.append(g);b.className=g===filter?"on":"";
+    b.onclick=()=>{filter=g;renderFilters();renderTL()};
+    b._g=g;fl.appendChild(b);
+  });
+}
+
+function renderTL(){
+  const tl=$("tl");tl.innerHTML="";
+  let side=0,lastEra=0;
+  NGJARJET.forEach((e,i)=>{
+    const hide=!(filter==="Të gjitha"||e.grupi===filter);
+    if(!hide){
+      const era=Math.floor((e.y-1)/100)+1;
+      if(era!==lastEra){lastEra=era;
+        const h=document.createElement("div");h.className="era";h.textContent=`Shekulli ${era}`;
+        h.style.cssText="position:relative;z-index:3;background:var(--bg);width:max-content;margin:34px auto 10px;padding:4px 22px;border:1px solid var(--line);border-radius:99px;font-size:24px";
+        tl.appendChild(h);}
+    }
+    const d=document.createElement("div");
+    d.className="item "+(side++%2?"r":"l")+(hide?" hide":"");
+    d.style.setProperty("--c",col(e.grupi));d.dataset.i=i;
+    d.innerHTML=`<span class="dot"></span><button><div class="yr">${e.vit}</div><div class="tt">${e.titulli}</div><div class="pl">${e.vendi}</div><div class="hint">Kliko për foton dhe shpjegimin</div></button>`;
+    d.querySelector("button").onclick=()=>open(i);
+    tl.appendChild(d);
+  });
+}
+
+async function getPhoto(e){
+  if(e.id in photoCache)return photoCache[e.id];
+  let r=null;
+  try{
+    const u=`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(e.wiki)}?redirect=true`;
+    const j=await (await fetch(u)).json();
+    if(j.thumbnail&&j.thumbnail.source){
+      r={src:j.thumbnail.source.replace(/\/\d+px-/,"/960px-"),page:j.content_urls&&j.content_urls.desktop.page};
+    }
+  }catch(_){}
+  photoCache[e.id]=r;return r;
+}
+
+async function open(i){
+  cur=i;const e=NGJARJET[i],c=col(e.grupi);
+  $("box").style.setProperty("--c",c);$("ov").style.setProperty("--c",c);
+  document.querySelectorAll(".item").forEach(x=>x.classList.toggle("act",+x.dataset.i===i));
+  $("mg").textContent=e.grupi;$("mdate").textContent=e.data;$("mt").textContent=e.titulli;
+  $("mp").textContent="📍 "+e.vendi;$("mx").textContent=e.tekst;
+  const ph=$("ph");ph.innerHTML=`<div class="fb">${e.vit.slice(0,4)}</div>`;
+  $("ov").classList.add("open");document.body.style.overflow="hidden";
+  const p=await getPhoto(e);
+  if(cur!==i)return;
+  if(p){
+    const img=new Image();img.alt=e.titulli;
+    img.onload=()=>{if(cur===i){ph.innerHTML="";ph.appendChild(img);ph.insertAdjacentHTML("beforeend",`<div class="cr">Foto: Wikipedia / Wikimedia Commons</div>`)}};
+    img.src=p.src;
+  }
+}
+function close(){$("ov").classList.remove("open");document.body.style.overflow="";
+  const it=document.querySelector(`.item[data-i="${cur}"]`);if(it)it.scrollIntoView({block:"center"})}
+function step(d){const v=visible();let k=v.indexOf(cur)+d;if(k>=0&&k<v.length)open(v[k])}
+$("pv").onclick=()=>step(-1);$("nx").onclick=()=>step(1);$("x").onclick=close;
+$("ov").onclick=ev=>{if(ev.target===$("ov"))close()};
+addEventListener("keydown",ev=>{
+  if(!$("ov").classList.contains("open"))return;
+  if(ev.key==="Escape")close();if(ev.key==="ArrowLeft")step(-1);if(ev.key==="ArrowRight")step(1);
+});
+renderFilters();renderTL();
+</script>
+</body>
+</html>
